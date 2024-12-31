@@ -6,6 +6,24 @@ from transformers import CLIPProcessor, CLIPModel, set_seed
 
 import time
 
+def compute_accuracy(pair_similarity):
+    # Ensure the pair_similarity is a square matrix
+    assert pair_similarity.shape[0] == pair_similarity.shape[1], "The input must be a square matrix."
+
+    # Get the size of the square matrix
+    n = pair_similarity.shape[0]
+
+    # Compute the accuracy
+    correct_count = 0
+    for i in range(n):
+        # Check if the diagonal element is the largest in the row
+        if pair_similarity[i, i] == torch.max(pair_similarity[i]):
+            correct_count += 1
+
+    # Calculate average accuracy
+    accuracy = correct_count / n
+    return accuracy
+
 
 def read_img_files(img_files):
     """
@@ -128,15 +146,30 @@ def compute_DFN_score(model, processor, imgs, texts):
 
     image_embeddings = torch.cat(image_embeddings)
 
+    # image_inputs = processor(images=imgs, return_tensors="pt", padding=True, truncation=True)
+    # with torch.no_grad():
+    #     image_embeddings = model.vision_model(**image_inputs)[1]
+    #     image_embeddings = model.visual_projection(image_embeddings)
+    # image_embeddings = image_embeddings / image_embeddings.norm(p=2, dim=-1, keepdim=True)
+
     # Compute cosine similarity
     cosine_similarity = (text_embeddings * image_embeddings).sum(dim=-1)
+
+    pair_sim = torch.matmul(text_embeddings, image_embeddings.T)
+
+    A = compute_accuracy(pair_sim)
+
+    # 500
+    # 0.128
+    # 200
+    # 0.185
 
     return cosine_similarity.tolist()
 
 if __name__ == "__main__":
     
     # set number of images caption pairs to process
-    number_imgs = 1000
+    number_imgs = 200
 
     # must set random seed
     set_seed(abs(hash("gata")) % (10 ** 8))
