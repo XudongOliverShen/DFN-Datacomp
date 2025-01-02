@@ -2,7 +2,8 @@ import os
 from PIL import Image
 
 import torch
-from transformers import CLIPProcessor, CLIPModel, set_seed
+from transformers import CLIPProcessor, set_seed
+from transformers import CLIPTextModelWithProjection, CLIPVisionModelWithProjection
 
 import time
 
@@ -60,13 +61,16 @@ def initialize_model_DFN(HF_model_name="XudongShen/DFN-public"):
         model: huggingface model .
         preprocesser: huggingface preprocesser.
     """
-    model = CLIPModel.from_pretrained(HF_model_name)
-    preprocesser = CLIPProcessor.from_pretrained(HF_model_name)
+    preprocessor = CLIPProcessor.from_pretrained(HF_model_name)
+
+    text_model_proj = CLIPTextModelWithProjection.from_pretrained(HF_model_name)
+    vision_model_proj = CLIPVisionModelWithProjection.from_pretrained(HF_model_name)
+
     
-    return model, preprocesser
+    return text_model_proj, vision_model_proj, preprocessor
 
 
-def compute_DFN_score(model, processor, imgs, texts):
+def compute_DFN_score(text_model_proj, vision_model_proj, processor, imgs, texts):
     """
     DFN score should be a value between -1 and 1, with higher being better
     precisely, DFN computes the cosine similarity between text and image embeddings,
@@ -82,7 +86,8 @@ def compute_DFN_score(model, processor, imgs, texts):
         DFN_score: list of DFN scores.
     """
 
-    model.eval()
+    text_model_proj.eval()
+    vision_model_proj.eval()
 
     # Get text embeddings
     text_embeddings = []
@@ -102,8 +107,7 @@ def compute_DFN_score(model, processor, imgs, texts):
             chunk_text = processor.tokenizer.decode(chunk, skip_special_tokens=True)
             text_inputs = processor(text=[chunk_text], return_tensors="pt", padding="max_length", truncation=True)
             with torch.no_grad():
-                chunk_embedding = model.text_model(**text_inputs)[1]
-                chunk_embedding = model.text_projection(chunk_embedding)
+                chunk_embedding = text_model_proj(**text_inputs)[0]
                 chunk_embedding = chunk_embedding / chunk_embedding.norm(p=2, dim=-1, keepdim=True)
 
                 chunk_embeddings.append(chunk_embedding)
@@ -120,8 +124,7 @@ def compute_DFN_score(model, processor, imgs, texts):
     for img in imgs:
         image_inputs = processor(images=[img], return_tensors="pt", padding=True, truncation=True)
         with torch.no_grad():
-            image_embedding = model.vision_model(**image_inputs)[1]
-            image_embedding = model.visual_projection(image_embedding)
+            image_embedding = vision_model_proj(**image_inputs)[0]
 
         image_embedding = image_embedding / image_embedding.norm(p=2, dim=-1, keepdim=True)
         image_embeddings.append(image_embedding)
@@ -153,12 +156,13 @@ if __name__ == "__main__":
     captions = read_txt_files(txt_files)
 
     # Initialize model and processor
-    model, preprocesser = initialize_model_DFN()
+    text_model_proj, vision_model_proj, preprocessor = initialize_model_DFN()
 
     # Compute cosine similarity
-    DFN_score = compute_DFN_score(model, preprocesser, imgs, captions)
+    DFN_score = compute_DFN_score(text_model_proj, vision_model_proj, preprocessor, imgs, captions)
 
     print("DFN Scores:")
     print(DFN_score)
     # check if results match
     # [0.12383436411619186, 0.24514636397361755, 0.2799367904663086, 0.06613056361675262, 0.06913130730390549]
+    # [0.12383435666561127, 0.24514639377593994, 0.279936820268631, 0.06613057106733322, 0.06913133710622787]
