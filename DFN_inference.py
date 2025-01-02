@@ -139,7 +139,7 @@ def compute_DFN_score(text_model_proj, vision_model_proj, processor, imgs, texts
 if __name__ == "__main__":
     
     # set number of images caption pairs to process
-    number_imgs = 5
+    number_imgs = 10
 
     # must set random seed
     set_seed(abs(hash("gata")) % (10 ** 8))
@@ -158,11 +158,30 @@ if __name__ == "__main__":
     # Initialize model and processor
     text_model_proj, vision_model_proj, preprocessor = initialize_model_DFN()
 
+
+    texts = ['a photo of a car', 'a photo of a football match']
+    text_inputs = preprocessor(text=texts, return_tensors="pt", padding="max_length", truncation=True)
+    with torch.no_grad():
+        text_embeddings = text_model_proj(**text_inputs)[0]
+    # 测试1: 确保js输出是一致的
+    # print(text_embeddings[0,:5].tolist())
+    # [-0.0008133882656693459, -0.002951593603938818, 0.007977750152349472, 0.010096581652760506, 0.010253100655972958]
+
+    image_inputs = preprocessor(images=[imgs[0]], return_tensors="pt", padding=True, truncation=True)
+    image_embedding = vision_model_proj(**image_inputs)[0]
+    # 测试2: 确保js输出是一致的
+    # print(image_embedding[0,:5].tolist())
+    # [-0.00812644325196743, 0.01711365208029747, 0.016149630770087242, -0.004290394484996796, -0.024714656174182892]
+
+
+
+
     # Compute cosine similarity
     DFN_score = compute_DFN_score(text_model_proj, vision_model_proj, preprocessor, imgs, captions)
 
     print("DFN Scores:")
     print(DFN_score)
-    # check if results match
-    # [0.12383436411619186, 0.24514636397361755, 0.2799367904663086, 0.06613056361675262, 0.06913130730390549]
-    # [0.12383435666561127, 0.24514639377593994, 0.279936820268631, 0.06613057106733322, 0.06913133710622787]
+    # 测试3: 确保js输出是一致的
+    # [0.12383435666561127, 0.24514639377593994, 0.279936820268631, 0.06613057106733322, 0.06913133710622787, 0.12837016582489014, 0.19847372174263, 0.2214941382408142, 0.07968918234109879, 0.2521185278892517]
+
+    
