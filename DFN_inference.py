@@ -136,7 +136,7 @@ def compute_DFN_score(model, processor, imgs, texts):
 if __name__ == "__main__":
     
     # set number of images caption pairs to process
-    number_imgs = 1000
+    number_imgs = 5
 
     # must set random seed
     set_seed(abs(hash("gata")) % (10 ** 8))
@@ -160,3 +160,5 @@ if __name__ == "__main__":
 
     print("DFN Scores:")
     print(DFN_score)
+    # check if results match
+    # [0.12383436411619186, 0.24514636397361755, 0.2799367904663086, 0.06613056361675262, 0.06913130730390549]
