@@ -6,6 +6,27 @@ from transformers import CLIPProcessor, set_seed
 from transformers import CLIPTextModelWithProjection, CLIPVisionModelWithProjection
 
 import time
+import itertools
+
+
+
+def compute_accuracy(pair_similarity):
+    # Ensure the pair_similarity is a square matrix
+    assert pair_similarity.shape[0] == pair_similarity.shape[1], "The input must be a square matrix."
+
+    # Get the size of the square matrix
+    n = pair_similarity.shape[0]
+
+    # Compute the accuracy
+    correct_count = 0
+    for i in range(n):
+        # Check if the diagonal element is the largest in the row
+        if pair_similarity[i, i] == torch.max(pair_similarity[i]):
+            correct_count += 1
+
+    # Calculate average accuracy
+    accuracy = correct_count / n
+    return accuracy
 
 
 def read_img_files(img_files):
@@ -51,6 +72,26 @@ def read_txt_files(txt_files):
         else:
             print(f"File not found: {file}")
     return texts
+
+def pad_to_square(img, fill_color=(0,0,0)):
+    """
+    Pad a PIL Image so that its width and height become equal.
+    The shorter side is padded with the specified fill_color (default is black).
+    """
+    width, height = img.size
+    max_dim = max(width, height)
+    
+    # Create a new square image with the max dimension
+    new_img = Image.new(mode='RGB', size=(max_dim, max_dim), color=fill_color)
+    
+    # To center the original image, compute the offsets
+    offset_x = (max_dim - width) // 2
+    offset_y = (max_dim - height) // 2
+    
+    # Paste the original image onto the square canvas
+    new_img.paste(img, (offset_x, offset_y))
+    
+    return new_img
 
 # Model Initialization
 def initialize_model_DFN(HF_model_name="XudongShen/DFN-public"):
@@ -122,7 +163,7 @@ def compute_DFN_score(text_model_proj, vision_model_proj, processor, imgs, texts
     # Get image embeddings
     image_embeddings = []
     for img in imgs:
-        image_inputs = processor(images=[img], return_tensors="pt", padding=True, truncation=True)
+        image_inputs = processor(images=[img], return_tensors="pt")
         with torch.no_grad():
             image_embedding = vision_model_proj(**image_inputs)[0]
 
@@ -133,6 +174,78 @@ def compute_DFN_score(text_model_proj, vision_model_proj, processor, imgs, texts
 
     # Compute cosine similarity
     cosine_similarity = (text_embeddings * image_embeddings).sum(dim=-1)
+
+    A = compute_accuracy( torch.matmul(text_embeddings, image_embeddings.T) )
+
+    # no padding
+    # 100
+    # 0.22
+    # 200
+    # 0.185
+    # 500
+    # 0.128
+    # 1000
+    # 0.11
+    # 2000
+    # 0.11
+
+    # 2000
+    # 0.07953976988494248
+
+    # padding 
+    # 100
+    # 0.25
+    # 200
+    # 0.175
+    # 500
+    # 0.126
+    # 1000
+    # 0.1
+    # 2000
+    # 0.1
+
+    # 2000
+    # 0.0830415207603802
+
+
+
+
+
+    # no padding
+    # 10: 0.18 
+    # 11: 0.22 1
+    # 12: 0.14
+    # 13: 0.17
+    # 14: 0.15
+    # 15: 0.14
+    # 16: 0.21
+    # 18: 0.17
+    # 19: 0.13 1
+    # 20: 0.23 1
+    # 21: 0.28
+    # 21: 0.19 1
+
+    # padding 
+    # 10: 0.19 1
+    # 11: 0.21
+    # 12: 0.14
+    # 13: 0.19 1
+    # 14: 0.16 1
+    # 15: 0.17 1
+    # 16: 0.24 1
+    # 18: 0.17
+    # 19: 0.1
+    # 20: 0.22
+    # 21: 0.28
+    # 22: 0.18
+
+    # print(cosine_similarity)
+    # tensor([0.1238, 0.2451, 0.2799, 0.0661, 0.0691, 0.1284, 0.1985, 0.2215, 0.0797,
+    #     0.2521])
+
+#     print(cosine_similarity)
+# tensor([0.1238, 0.2451, 0.2799, 0.0661, 0.0691, 0.1284, 0.1985, 0.2215, 0.0797,
+#         0.2521])
 
     return cosine_similarity.tolist()
 
@@ -149,29 +262,67 @@ if __name__ == "__main__":
     folder_path = "/root/Documents/datadrive/datacomp_dataset/xsmall/shards/00000000_tar"
     jpg_files = sorted([os.path.join(folder_path, entry.name) for entry in os.scandir(folder_path) if entry.is_file() and entry.name.endswith(".jpg")])
 
+    # i = 1
+    # jpg_files = jpg_files[number_imgs*i:number_imgs*(i+1)]
     jpg_files = jpg_files[:number_imgs]
     txt_files = [path.replace(".jpg", ".txt") for path in jpg_files]
 
     imgs = read_img_files(jpg_files)
     captions = read_txt_files(txt_files)
 
+    imgs_valid = []
+    captions_valid = []
+    for img, caption in itertools.zip_longest(imgs, captions):
+        if img.size[0] > 1 and img.size[1] > 1:
+            imgs_valid.append(img)
+            captions_valid.append(caption)
+
+    imgs = imgs_valid
+    captions = captions_valid
+
     # Initialize model and processor
     text_model_proj, vision_model_proj, preprocessor = initialize_model_DFN()
 
 
-    texts = ['a photo of a car', 'a photo of a football match']
-    text_inputs = preprocessor(text=texts, return_tensors="pt", padding="max_length", truncation=True)
-    with torch.no_grad():
-        text_embeddings = text_model_proj(**text_inputs)[0]
-    # 测试1: 确保js输出是一致的
-    # print(text_embeddings[0,:5].tolist())
-    # [-0.0008133882656693459, -0.002951593603938818, 0.007977750152349472, 0.010096581652760506, 0.010253100655972958]
+    # texts = ['a photo of a car', 'a photo of a football match']
+    # text_inputs = preprocessor(text=texts, return_tensors="pt", padding="max_length", truncation=True)
+    # with torch.no_grad():
+    #     text_embeddings = text_model_proj(**text_inputs)[0]
+    # # 测试1: 确保js输出是一致的
+    # # print(text_embeddings[0,:5].tolist())
+    # # [-0.0008133882656693459, -0.002951593603938818, 0.007977750152349472, 0.010096581652760506, 0.010253100655972958]
 
-    image_inputs = preprocessor(images=[imgs[0]], return_tensors="pt", padding=True, truncation=True)
-    image_embedding = vision_model_proj(**image_inputs)[0]
-    # 测试2: 确保js输出是一致的
+    # # image_inputs = preprocessor(images=[imgs[0]], return_tensors="pt", padding=True, truncation=True)
+    # image_inputs = preprocessor(images=[imgs[0]], return_tensors="pt")
+    # # image_inputs['pixel_values'].norm()
+    # # tensor(608.6111)
+
+    # image_embedding = vision_model_proj(**image_inputs)[0]
+    # # 测试2: 确保js输出是一致的
+    # # print(image_embedding[0,:5].tolist())
+    # # [-0.00812644325196743, 0.01711365208029747, 0.016149630770087242, -0.004290394484996796, -0.024714656174182892]
+
+
+
+
+
+
+
+
+
+    imgs = [pad_to_square(img) for img in imgs]
+    # image_inputs = preprocessor(images=[imgs[0]], return_tensors="pt")
+    # # image_inputs["pixel_values"].norm()
+    # # tensor(635.2685)
+
+    # image_embedding = vision_model_proj(**image_inputs)[0]
     # print(image_embedding[0,:5].tolist())
-    # [-0.00812644325196743, 0.01711365208029747, 0.016149630770087242, -0.004290394484996796, -0.024714656174182892]
+    # # [-0.004965551197528839, -0.012129547074437141, 0.01617734134197235, -0.01127003412693739, -0.013096662238240242]
+    # A = 1
+    # # [-0.00812644325196743, 0.01711365208029747, 0.016149630770087242, -0.004290394484996796, -0.024714656174182892]
+
+
+
 
 
 
