@@ -1,0 +1,14 @@
+{
+    "uid": "c09e0a19ed72f4cb32294f0fb4a7aaff",
+    "caption": "206 Fishers Ct #404, Hampton, VA 23666 (#10281692) :: Atkinson Realty",
+    "url": "https://bt-photos.global.ssl.fastly.net/rein/640_boomver_1_10281692-1.jpg",
+    "key": "000000000227",
+    "status": "success",
+    "error_message": null,
+    "width": 512,
+    "height": 342,
+    "original_width": 640,
+    "original_height": 427,
+    "exif": "{\"Image Make\": \"SONY\", \"Image Model\": \"ILCE-7RM2\", \"Image Orientation\": \"Horizontal (normal)\", \"Image XResolution\": \"96\", \"Image YResolution\": \"96\", \"Image ResolutionUnit\": \"Pixels/Inch\", \"Image Software\": \"Adobe Photoshop Lightroom Classic 8.3.1 (Windows)\", \"Image DateTime\": \"2019:06:14 15:44:58\", \"Image ExifOffset\": \"215\", \"EXIF SensitivityType\": \"Recommended Exposure Index\", \"EXIF RecommendedExposureIndex\": \"200\", \"EXIF OffsetTime\": \"-04:00\", \"EXIF LensSpecification\": \"[16, 35, 4, 4]\", \"EXIF LensModel\": \"FE 16-35mm F4 ZA OSS\", \"EXIF ExposureTime\": \"1/500\", \"EXIF FNumber\": \"28/5\", \"EXIF ExposureProgram\": \"Manual\", \"EXIF ISOSpeedRatings\": \"200\", \"EXIF ExifVersion\": \"\", \"EXIF DateTimeOriginal\": \"2015:03:12 00:19:21\", \"EXIF DateTimeDigitized\": \"2015:03:12 00:19:21\", \"EXIF ShutterSpeedValue\": \"1120723/125000\", \"EXIF ApertureValue\": \"2485427/500000\", \"EXIF BrightnessValue\": \"12607/1280\", \"EXIF ExposureBiasValue\": \"0\", \"EXIF MaxApertureValue\": \"4\", \"EXIF MeteringMode\": \"Pattern\", \"EXIF LightSource\": \"Unknown\", \"EXIF Flash\": \"Flash fired, compulsory flash mode, return light not detected\", \"EXIF FocalLength\": \"16\", \"EXIF FileSource\": \"0\", \"EXIF SceneType\": \"0\", \"EXIF CustomRendered\": \"Normal\", \"EXIF ExposureMode\": \"Manual Exposure\", \"EXIF WhiteBalance\": \"Auto\", \"EXIF DigitalZoomRatio\": \"1\", \"EXIF FocalLengthIn35mmFilm\": \"16\", \"EXIF SceneCaptureType\": \"Standard\", \"EXIF Contrast\": \"Normal\", \"EXIF Saturation\": \"Normal\", \"EXIF Sharpness\": \"Normal\"}",
+    "sha256": "eca4c88a18c85a3b3fd1d0542a518680d909c5eaf1d77199e1e19277dd8c5c82"
+}
