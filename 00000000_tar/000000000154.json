@@ -1,0 +1,14 @@
+{
+    "uid": "c7990196ae02a8c93012d9fab67c80cb",
+    "caption": "mockup-solimut",
+    "url": "http://berengereblaize.com/wp-content/uploads/2016/08/Mockup-Solimut.jpg",
+    "key": "000000000154",
+    "status": "success",
+    "error_message": null,
+    "width": 512,
+    "height": 342,
+    "original_width": 1000,
+    "original_height": 667,
+    "exif": "{\"Image Make\": \"Canon\", \"Image Model\": \"Canon EOS 550D\", \"Image Orientation\": \"Horizontal (normal)\", \"Image XResolution\": \"300\", \"Image YResolution\": \"300\", \"Image ResolutionUnit\": \"Pixels/Inch\", \"Image Software\": \"Adobe Photoshop CC 2015.5 (Macintosh)\", \"Image DateTime\": \"2016:10:21 17:07:56\", \"Image ExifOffset\": \"220\", \"Thumbnail Compression\": \"JPEG (old-style)\", \"Thumbnail XResolution\": \"72\", \"Thumbnail YResolution\": \"72\", \"Thumbnail ResolutionUnit\": \"Pixels/Inch\", \"Thumbnail JPEGInterchangeFormat\": \"854\", \"Thumbnail JPEGInterchangeFormatLength\": \"9060\", \"EXIF ExposureTime\": \"1/80\", \"EXIF FNumber\": \"5\", \"EXIF ExposureProgram\": \"Manual\", \"EXIF ISOSpeedRatings\": \"800\", \"EXIF ExifVersion\": \"\", \"EXIF DateTimeOriginal\": \"2014:05:21 15:19:20\", \"EXIF DateTimeDigitized\": \"2014:05:21 15:19:20\", \"EXIF ShutterSpeedValue\": \"790241/125000\", \"EXIF ApertureValue\": \"290241/62500\", \"EXIF ExposureBiasValue\": \"0\", \"EXIF MaxApertureValue\": \"7/4\", \"EXIF MeteringMode\": \"Pattern\", \"EXIF Flash\": \"Flash did not fire, compulsory flash mode\", \"EXIF FocalLength\": \"50\", \"EXIF SubSecTime\": \"20\", \"EXIF SubSecTimeOriginal\": \"20\", \"EXIF SubSecTimeDigitized\": \"20\", \"EXIF ColorSpace\": \"Uncalibrated\", \"EXIF ExifImageWidth\": \"1000\", \"EXIF ExifImageLength\": \"667\", \"EXIF FocalPlaneXResolution\": \"1036800/181\", \"EXIF FocalPlaneYResolution\": \"691200/119\", \"EXIF FocalPlaneResolutionUnit\": \"2\", \"EXIF CustomRendered\": \"Normal\", \"EXIF ExposureMode\": \"Manual Exposure\", \"EXIF WhiteBalance\": \"Auto\", \"EXIF SceneCaptureType\": \"Standard\", \"EXIF BodySerialNumber\": \"2533312154\", \"EXIF LensSpecification\": \"[50, 50, 0/0, 0/0]\", \"EXIF LensModel\": \"EF50mm f/1.8 II\"}",
+    "sha256": "070d006a9d854f9322f3b3cadf03738b1ce42e43cab33b2d304a22e50fba63c6"
+}

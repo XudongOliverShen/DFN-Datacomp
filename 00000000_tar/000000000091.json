@@ -1,0 +1,14 @@
+{
+    "uid": "8dc029c238057f367e4956c7608f038b",
+    "caption": "e0000126_1871618.jpg",
+    "url": "https://pds.exblog.jp/pds/1/200801/31/26/e0000126_1871618.jpg",
+    "key": "000000000091",
+    "status": "success",
+    "error_message": null,
+    "width": 512,
+    "height": 384,
+    "original_width": 640,
+    "original_height": 480,
+    "exif": "{\"Image Make\": \"PENTAX Corporation\", \"Image Model\": \"PENTAX Optio S5i\", \"Image Orientation\": \"Horizontal (normal)\", \"Image Software\": \"Optio S5i Ver 1.00\", \"Image DateTime\": \"2008:01:30 12:03:47\", \"Image YCbCrPositioning\": \"Centered\", \"Image ExifOffset\": \"2260\", \"Image PrintIM\": \"[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]\", \"Image Padding\": \"[]\", \"EXIF ExposureTime\": \"1/400\", \"EXIF FNumber\": \"13/5\", \"EXIF ISOSpeedRatings\": \"80\", \"EXIF ExifVersion\": \"\", \"EXIF DateTimeDigitized\": \"2008:01:30 12:03:47\", \"EXIF ComponentsConfiguration\": \"\", \"EXIF CompressedBitsPerPixel\": \"128/25\", \"EXIF ExposureBiasValue\": \"0\", \"EXIF MaxApertureValue\": \"14/5\", \"EXIF MeteringMode\": \"Pattern\", \"EXIF Flash\": \"Flash did not fire, compulsory flash mode\", \"EXIF FocalLength\": \"29/5\", \"EXIF FlashPixVersion\": \"\", \"EXIF ColorSpace\": \"sRGB\", \"EXIF ExifImageWidth\": \"1600\", \"EXIF ExifImageLength\": \"1200\", \"EXIF CustomRendered\": \"Normal\", \"EXIF ExposureMode\": \"Auto Exposure\", \"EXIF WhiteBalance\": \"Auto\", \"EXIF DigitalZoomRatio\": \"0/0\", \"EXIF FocalLengthIn35mmFilm\": \"35\", \"EXIF SceneCaptureType\": \"Standard\", \"EXIF Contrast\": \"Normal\", \"EXIF Saturation\": \"Normal\", \"EXIF Sharpness\": \"Normal\", \"EXIF SubjectDistanceRange\": \"1\", \"EXIF Padding\": \"[]\", \"EXIF OffsetSchema\": \"4096\"}",
+    "sha256": "d9b8833661e75abfa384bf0a95ec0de7260c2c2cd0bb8d814319ea7e357d784f"
+}

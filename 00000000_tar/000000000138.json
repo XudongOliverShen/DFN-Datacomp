@@ -1,0 +1,14 @@
+{
+    "uid": "be98edfcd3f26347f8407f55847a83e4",
+    "caption": "Image 1",
+    "url": "https://cdn10.bigcommerce.com/s-our9c/products/1221/images/4681/IMG_8539__48825.1539282716.451.416.JPG?c=2",
+    "key": "000000000138",
+    "status": "success",
+    "error_message": null,
+    "width": 400,
+    "height": 416,
+    "original_width": 400,
+    "original_height": 416,
+    "exif": "{\"Image Orientation\": \"Horizontal (normal)\"}",
+    "sha256": "4865aa2eb13e2f686e811a7e4083c65bb671f36c35ee7986381f1c8952acb0d3"
+}
